@@ -1,25 +1,55 @@
-import { MaterialIcons } from "@expo/vector-icons";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import {
+  Keyboard,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
-export default function Home() {
+export default function SimpleKeyboardScreen() {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View className="flex-1 bg-primary p-4 justify-between">
-      <View className="flex-1 justify-center">
-        <Text className="text-white text-2xl font-semibold text-center">
-          What's on your mind today?
-        </Text>
-      </View>
+    <SafeAreaView
+      className="flex-1 bg-black"
+      edges={["top", "left", "right"]} // ❌ no bottom here
+    >
+      <KeyboardAwareScrollView
+        enableOnAndroid
+        keyboardShouldPersistTaps="handled"
+        extraScrollHeight={0}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: insets.bottom, // ✅ respects Android nav bar
+        }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View className="flex-1 justify-center px-6 bg-primary p-4">
+            <Text className="text-white text-2xl font-semibold text-center">
+              {"What's on your mind today ?"}
+            </Text>
 
-      <View className="border-gray-500 border-2 rounded-3xl flex-row items-center py-3 px-3 mb-4 gap-2">
-        <TextInput
-          placeholder="Ask me anything"
-          placeholderTextColor="#ADADAD"
-          className="flex-1 text-white pr-2"
-        />
-        <TouchableOpacity>
-          <MaterialIcons name="send" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
-    </View>
+            <View className="flex-row bg-gray-900 py-2 px-4 rounded-3xl items-center mt-10">
+              <TextInput
+                placeholder="Ask anything"
+                placeholderTextColor="#cbd5e1"
+                className="flex-1 rounded-xl px-4 py-3 bg-gray-900 text-gray-300 mr-3"
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+
+              <Ionicons name="send" size={24} color="white" />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 }

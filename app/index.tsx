@@ -1,9 +1,7 @@
-import { Text, View } from "react-native";
+import { Redirect } from "expo-router";
+import { useAuth } from "../context/AuthContext";
 
 export default function Index() {
-  return (
-    <View>
-      <Text>Hello</Text>
-    </View>
-  );
+  const { user } = useAuth();
+  return <Redirect href={user ? "/(app)/home" : "/(auth)/login"} />;
 }

@@ -1,18 +1,18 @@
+import { useAuth } from "@/context/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
   Keyboard,
   Text,
   TextInput,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SimpleKeyboardScreen() {
-  const insets = useSafeAreaInsets();
-
+  const { logout } = useAuth();
   return (
     <KeyboardAwareScrollView
       enableOnAndroid
@@ -24,6 +24,9 @@ export default function SimpleKeyboardScreen() {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View className="flex-1 justify-center px-6 bg-primary p-4">
+          <TouchableOpacity onPress={logout}>
+            <Text className="text-white text-center">Logout</Text>
+          </TouchableOpacity>
           <Text className="text-white text-2xl font-semibold text-center">
             {"What's on your mind today ?"}
           </Text>

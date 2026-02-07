@@ -1,9 +1,10 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { loginRequest } from "@/services/auth.service";
+import { deleteToken, getToken, saveToken } from "@/utils/storage";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type AuthContextType = {
   user: any;
-  login: (token: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   loading: boolean;
 };
@@ -15,19 +16,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AsyncStorage.getItem("token").then((token) => {
-      if (token) setUser({ token });
+    const loadToken = async () => {
+      const token = await getToken();
+      if (token) {
+        setUser(token);
+      }
       setLoading(false);
-    });
+    };
+
+    loadToken();
   }, []);
 
-  const login = async (token: string) => {
-    await AsyncStorage.setItem("token", token);
-    setUser({ token });
+  const login = async (email: string, password: string) => {
+    setLoading(true);
+    try {
+      const { token, user } = await loginRequest(email, password);
+      await saveToken(token);
+      setUser(user);
+    } catch (err) {
+      throw err;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logout = async () => {
-    await AsyncStorage.removeItem("token");
+    await deleteToken();
     setUser(null);
   };
 

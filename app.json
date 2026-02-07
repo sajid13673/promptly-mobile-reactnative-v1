@@ -7,11 +7,9 @@
     "icon": "./assets/images/icon.png",
     "scheme": "promptlyreactnative",
     "userInterfaceStyle": "automatic",
-
     "ios": {
       "supportsTablet": true
     },
-
     "android": {
       "newArchEnabled": true,
       "adaptiveIcon": {
@@ -25,13 +23,11 @@
       "softwareKeyboardLayoutMode": "resize",
       "package": "com.anonymous.promptlyreactnative"
     },
-
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png",
       "bundler": "metro"
     },
-
     "plugins": [
       "expo-router",
       [
@@ -46,9 +42,9 @@
           }
         }
       ],
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-secure-store"
     ],
-
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true

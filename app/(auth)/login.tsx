@@ -1,5 +1,6 @@
+import { useAuth } from "@/context/AuthContext";
 import { Link } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import {
   Keyboard,
   Text,
@@ -11,6 +12,13 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Login = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const { login, loading } = useAuth();
+  const handleLogin = async () => {
+    await login(email, password);
+  };
   return (
     <KeyboardAwareScrollView
       enableOnAndroid
@@ -30,6 +38,8 @@ const Login = () => {
           <View className="mb-4">
             <Text className="text-white mb-2">Email</Text>
             <TextInput
+              value={email}
+              onChangeText={setEmail}
               placeholder="Enter your email"
               placeholderTextColor="#cbd5e1"
               className="bg-white rounded-xl px-4 py-3 text-gray-900"
@@ -41,6 +51,8 @@ const Login = () => {
           <View className="mb-6">
             <Text className="text-white mb-2">Password</Text>
             <TextInput
+              value={password}
+              onChangeText={setPassword}
               placeholder="Enter your password"
               placeholderTextColor="#cbd5e1"
               className="bg-white rounded-xl px-4 py-3 text-gray-900"
@@ -48,7 +60,10 @@ const Login = () => {
             />
           </View>
 
-          <TouchableOpacity className="bg-secondary py-4 rounded-xl mb-4">
+          <TouchableOpacity
+            onPress={handleLogin}
+            className="bg-secondary py-4 rounded-xl mb-4"
+          >
             <Text className="text-center text-white font-semibold text-lg">
               Login
             </Text>

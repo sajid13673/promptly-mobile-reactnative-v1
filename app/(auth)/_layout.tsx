@@ -1,8 +1,13 @@
+import { useAuth } from "@/context/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import React from "react";
 
-const _layout = () => {
+const AuthLayout = () => {
+  const { user, loading } = useAuth();
+  if (user) {
+    return <Redirect href="/(app)/home" />;
+  }
   return (
     <Tabs
       screenOptions={{
@@ -10,7 +15,7 @@ const _layout = () => {
         tabBarItemStyle: {
           width: "100%",
           height: "100%",
-          justifyContent: 'center',
+          justifyContent: "center",
           alignItems: "center",
         },
         tabBarStyle: {
@@ -20,7 +25,7 @@ const _layout = () => {
           marginBottom: 36,
           height: 52,
           position: "absolute",
-          overflow: 'hidden',
+          overflow: "hidden",
           borderWidth: 1,
           borderColor: "#0f0D23",
         },
@@ -51,4 +56,4 @@ const _layout = () => {
   );
 };
 
-export default _layout;
+export default AuthLayout;

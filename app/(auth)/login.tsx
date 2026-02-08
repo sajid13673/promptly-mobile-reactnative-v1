@@ -1,4 +1,5 @@
 import { useAuth } from "@/context/AuthContext";
+import { AntDesign } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -14,6 +15,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const { login, loading } = useAuth();
   const handleLogin = async () => {
@@ -50,14 +52,23 @@ const Login = () => {
 
           <View className="mb-6">
             <Text className="text-white mb-2">Password</Text>
-            <TextInput
-              value={password}
-              onChangeText={setPassword}
-              placeholder="Enter your password"
-              placeholderTextColor="#cbd5e1"
-              className="bg-white rounded-xl px-4 py-3 text-gray-900"
-              secureTextEntry
-            />
+            <View className="bg-white flex-row rounded-xl items-center px-2">
+              <TextInput
+                value={password}
+                onChangeText={setPassword}
+                placeholder="Enter your password"
+                placeholderTextColor="#cbd5e1"
+                className="bg-white flex-1 rounded-xl px-4 py-3 text-gray-900"
+                secureTextEntry={!showPassword}
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <AntDesign
+                  name={showPassword ? "eye" : "eye-invisible"}
+                  size={24}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <TouchableOpacity

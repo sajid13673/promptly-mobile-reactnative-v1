@@ -1,5 +1,6 @@
+import { AntDesign } from "@expo/vector-icons";
 import { Link } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import {
   Keyboard,
   Text,
@@ -10,7 +11,10 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-const register = () => {
+const Register = () => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
   return (
     <KeyboardAwareScrollView
       enableOnAndroid
@@ -41,21 +45,41 @@ const register = () => {
           </View>
           <View className="mb-6">
             <Text className="text-white mb-2">Password</Text>
-            <TextInput
-              placeholder="Password"
-              placeholderTextColor="#cbd5e1"
-              secureTextEntry
-              className="bg-white rounded-xl py-3 text-gray-900"
-            />
+            <View className="bg-white flex-row rounded-xl items-center px-2">
+              <TextInput
+                placeholder="Password"
+                placeholderTextColor="#cbd5e1"
+                secureTextEntry={!showPassword}
+                className="bg-white rounded-xl py-3 text-gray-900 flex-1"
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <AntDesign
+                  name={showPassword ? "eye" : "eye-invisible"}
+                  size={24}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           <View className="mb-6">
             <Text className="text-white mb-2">Confirm Password</Text>
-            <TextInput
-              placeholder="Confirm Password"
-              placeholderTextColor="#cbd5e1"
-              className="bg-white rounded-xl py-3 text-gray-900"
-              secureTextEntry
-            />
+            <View className="bg-white flex-row rounded-xl items-center px-2">
+              <TextInput
+                placeholder="Confirm Password"
+                placeholderTextColor="#cbd5e1"
+                className="bg-white rounded-xl py-3 text-gray-900 flex-1"
+                secureTextEntry={!showConfirmPassword}
+              />
+              <TouchableOpacity
+                onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                <AntDesign
+                  name={showConfirmPassword ? "eye" : "eye-invisible"}
+                  size={24}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           <TouchableOpacity className="bg-secondary py-4 rounded-xl mb-4">
             <Text className="text-center text-white font-semibold text-lg">
@@ -74,4 +98,4 @@ const register = () => {
   );
 };
 
-export default register;
+export default Register;

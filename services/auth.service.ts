@@ -11,3 +11,17 @@ export async function loginRequest(email: string, password: string) {
 export async function logoutRequest() {
   return api.post("/logout");
 }
+export async function registerRequest(
+  name: string,
+  email: string,
+  password: string,
+  confirmPassword: string,
+) {
+  const response = await api.post("/register", {
+    name,
+    email,
+    password,
+    password_confirmation: confirmPassword,
+  });
+  return response.data;
+}

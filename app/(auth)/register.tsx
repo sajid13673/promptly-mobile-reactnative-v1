@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/AuthContext";
 import { AntDesign } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import React, { useState } from "react";
@@ -13,8 +14,16 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
+  const { register } = useAuth();
+  const handleRegister = () => {
+    register(name, email, password, confirmPassword);
+  };
   return (
     <KeyboardAwareScrollView
       enableOnAndroid
@@ -31,7 +40,9 @@ const Register = () => {
             <Text className="text-white mb-2">Full Name</Text>
             <TextInput
               placeholder="Full Name"
+              value={name}
               placeholderTextColor="#cbd5e1"
+              onChangeText={setName}
               className="bg-white rounded-xl py-3 text-gray-900"
             />
           </View>
@@ -39,7 +50,9 @@ const Register = () => {
             <Text className="text-white mb-2">Email</Text>
             <TextInput
               placeholder="you@mail.com"
+              value={email}
               placeholderTextColor="#cbd5e1"
+              onChangeText={setEmail}
               className="bg-white rounded-xl py-3 text-gray-900"
             />
           </View>
@@ -48,7 +61,9 @@ const Register = () => {
             <View className="bg-white flex-row rounded-xl items-center px-2">
               <TextInput
                 placeholder="Password"
+                value={password}
                 placeholderTextColor="#cbd5e1"
+                onChangeText={setPassword}
                 secureTextEntry={!showPassword}
                 className="bg-white rounded-xl py-3 text-gray-900 flex-1"
               />
@@ -66,7 +81,9 @@ const Register = () => {
             <View className="bg-white flex-row rounded-xl items-center px-2">
               <TextInput
                 placeholder="Confirm Password"
+                value={confirmPassword}
                 placeholderTextColor="#cbd5e1"
+                onChangeText={setConfirmPassword}
                 className="bg-white rounded-xl py-3 text-gray-900 flex-1"
                 secureTextEntry={!showConfirmPassword}
               />
@@ -81,7 +98,10 @@ const Register = () => {
               </TouchableOpacity>
             </View>
           </View>
-          <TouchableOpacity className="bg-secondary py-4 rounded-xl mb-4">
+          <TouchableOpacity
+            onPress={handleRegister}
+            className="bg-secondary py-4 rounded-xl mb-4"
+          >
             <Text className="text-center text-white font-semibold text-lg">
               Register
             </Text>

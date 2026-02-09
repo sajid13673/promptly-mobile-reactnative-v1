@@ -1,4 +1,4 @@
-import { loginRequest } from "@/services/auth.service";
+import { loginRequest, registerRequest } from "@/services/auth.service";
 import { deleteToken, getToken, saveToken } from "@/utils/storage";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -7,6 +7,12 @@ type AuthContextType = {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   loading: boolean;
+  register: (
+    name: string,
+    email: string,
+    password: string,
+    confirmPassword: string,
+  ) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -40,13 +46,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const register = async (
+    name: string,
+    email: string,
+    password: string,
+    confirmPassword: string,
+  ) => {
+    setLoading(true);
+    try {
+      const { token, user } = await registerRequest(
+        name,
+        email,
+        password,
+        confirmPassword,
+      );
+      await saveToken(token);
+      setUser(user);
+    } catch (err) {
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = async () => {
     await deleteToken();
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, register }}>
       {children}
     </AuthContext.Provider>
   );

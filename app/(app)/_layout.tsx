@@ -1,6 +1,9 @@
 import { useAuth } from "@/context/AuthContext";
+import { Feather } from "@expo/vector-icons";
+import { MenuView } from "@react-native-menu/menu";
 import { Redirect } from "expo-router";
 import { Drawer } from "expo-router/drawer";
+import { TouchableOpacity } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function AppLayout() {
@@ -29,6 +32,29 @@ export default function AppLayout() {
           options={{
             drawerLabel: "Home",
             title: "",
+            headerRight: () => (
+              <MenuView
+                title="Menu Options"
+                onPressAction={({ nativeEvent }) => {
+                  console.log("Selected:", nativeEvent.event);
+                }}
+                actions={[
+                  { id: "profile", title: "Profile" },
+                  { id: "settings", title: "Settings" },
+                  {
+                    id: "logout",
+                    title: "Logout",
+                    attributes: { destructive: true },
+                  },
+                ]}
+                shouldOpenOnLongPress={false}
+              >
+                <TouchableOpacity style={{ marginRight: 15 }}>
+                  {/* <Ionicons name="ellipsis-vertical" size={24} color="white" /> */}
+                  <Feather name="settings" size={24} color="white" />
+                </TouchableOpacity>
+              </MenuView>
+            ),
           }}
         />
       </Drawer>

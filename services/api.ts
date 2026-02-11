@@ -1,8 +1,14 @@
 import { getToken } from "@/utils/storage";
 import axios from "axios";
+import Constants from "expo-constants";
+
+const apiUrl =
+  Constants.expoConfig?.extra?.apiUrl ?? Constants.manifest?.extra?.apiUrl;
+
+console.log("url:", apiUrl);
 
 const api = axios.create({
-  baseURL: "https://dc677778a7c1.ngrok-free.app/api",
+  baseURL: apiUrl,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

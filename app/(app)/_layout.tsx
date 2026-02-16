@@ -1,4 +1,5 @@
 import { useAuth } from "@/context/AuthContext";
+import { ConversationProvider } from "@/context/ConverstationContext";
 import { Feather } from "@expo/vector-icons";
 import { MenuView } from "@react-native-menu/menu";
 import { Redirect } from "expo-router";
@@ -6,7 +7,7 @@ import { Drawer } from "expo-router/drawer";
 import { TouchableOpacity } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-export default function AppLayout() {
+function AppLayoutNav() {
   const { user, loading } = useAuth();
 
   if (loading) return null;
@@ -59,5 +60,13 @@ export default function AppLayout() {
         />
       </Drawer>
     </GestureHandlerRootView>
+  );
+}
+
+export default function AppLayout() {
+  return (
+    <ConversationProvider>
+      <AppLayoutNav />
+    </ConversationProvider>
   );
 }
